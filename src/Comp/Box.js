@@ -3,10 +3,14 @@ import { fabric } from 'fabric';
 
 const Box = () => {
 
-  const [canvas, setCanvas] = useState('');
+  // const [canvas, setCanvas] = useState('');
+
+  // useEffect(() => {
+  //   setCanvas(initCanvas());
+  // });
 
   useEffect(() => {
-    setCanvas(initCanvas());
+    initCanvas();
   });
 
   const textCoardiantes = [{ text: "A", fixedLeft: 250, fixedTop: 400, dragLeft: 400, dragTop: 600, dragcolor: "yellow", fixedColor: "white" },
