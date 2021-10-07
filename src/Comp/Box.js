@@ -7,7 +7,7 @@ const Box = () => {
 
   useEffect(() => {
     setCanvas(initCanvas());
-  }, [canvas]);
+  });
 
   const textCoardiantes = [{ text: "A", fixedLeft: 250, fixedTop: 400, dragLeft: 400, dragTop: 600, dragcolor: "yellow", fixedColor: "white" },
   { text: "H", fixedLeft: 100, fixedTop: 400, dragLeft: 250, dragTop: 600, dragcolor: "red", fixedColor: "white" },
@@ -167,7 +167,6 @@ const Box = () => {
   return (
     <div className="box" >
       <canvas className="canvas" id="canvas">
-        {/* <img src={require('./../img/hat.png')} id='img' /> */}
       </canvas>
     </div>
   );
