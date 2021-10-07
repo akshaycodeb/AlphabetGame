@@ -1,0 +1,24 @@
+.App {
+  text-align: center;
+}
+ 
+.Box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas{
+  margin: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.empty{
+  width:100;
+  height: 100;
+  background-color: #F5F5F5;
+  top: 400;
+  left: 100;
+}
