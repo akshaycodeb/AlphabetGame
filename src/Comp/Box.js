@@ -7,15 +7,15 @@ const Box = () => {
     initCanvas();
   });
 
-  const textCoardiantes = [{ text: "A", fixedLeft: 230, fixedTop: 150, dragLeft: 350, dragTop: 400, dragcolor: "yellow", fixedColor: "white" },
-  { text: "H", fixedLeft: 100, fixedTop: 150, dragLeft: 230, dragTop: 400, dragcolor: "red", fixedColor: "white" },
-  { text: "T", fixedLeft: 350, fixedTop: 150, dragLeft: 100, dragTop: 400, dragcolor: "grey", fixedColor: "white" }]
+  const textCoardiantes = [{ text: "A", fixedLeft: 230, fixedTop: 50, dragLeft: 350, dragTop: 200, dragcolor: "yellow", fixedColor: "white" },
+  { text: "H", fixedLeft: 100, fixedTop: 50, dragLeft: 230, dragTop: 200, dragcolor: "red", fixedColor: "white" },
+  { text: "T", fixedLeft: 350, fixedTop: 50, dragLeft: 100, dragTop: 200, dragcolor: "grey", fixedColor: "white" }]
 
   const initCanvas = () => {
 
     const Anime = new fabric.Canvas('canvas', {
-      height: 600,
-      width: 550,
+      height: 350,
+      width: 500,
       backgroundColor: 'pink',
     })
 
@@ -117,9 +117,14 @@ const Box = () => {
   }
 
   return (
-    <div >
-      <canvas className="canvas" id="canvas">
-      </canvas>
+    <div className="main">
+      <div className="img">
+      {/* <img src={require('../img/hat.png')}/> */}
+      <img src='./img/hat.png' width="150" height="150"/>
+      </div>
+      <div className="canvas">
+       <canvas  id="canvas" />
+      </div>
     </div>
   );
 }
