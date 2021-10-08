@@ -7,15 +7,15 @@ const Box = () => {
     initCanvas();
   });
 
-  const textCoardiantes = [{ text: "A", fixedLeft: 250, fixedTop: 300, dragLeft: 380, dragTop: 450, dragcolor: "yellow", fixedColor: "white" },
-  { text: "H", fixedLeft: 110, fixedTop: 300, dragLeft: 250, dragTop: 450, dragcolor: "red", fixedColor: "white" },
-  { text: "T", fixedLeft: 380, fixedTop: 300, dragLeft: 110, dragTop: 450, dragcolor: "grey", fixedColor: "white" }]
+  const textCoardiantes = [{ text: "A", fixedLeft: 230, fixedTop: 150, dragLeft: 350, dragTop: 400, dragcolor: "yellow", fixedColor: "white" },
+  { text: "H", fixedLeft: 100, fixedTop: 150, dragLeft: 230, dragTop: 400, dragcolor: "red", fixedColor: "white" },
+  { text: "T", fixedLeft: 350, fixedTop: 150, dragLeft: 100, dragTop: 400, dragcolor: "grey", fixedColor: "white" }]
 
   const initCanvas = () => {
 
     const Anime = new fabric.Canvas('canvas', {
       height: 600,
-      width: 600,
+      width: 550,
       backgroundColor: 'pink',
     })
 
@@ -117,7 +117,7 @@ const Box = () => {
   }
 
   return (
-    <div className="box" >
+    <div >
       <canvas className="canvas" id="canvas">
       </canvas>
     </div>
