@@ -7,9 +7,9 @@ const Box = () => {
     initCanvas();
   });
 
-  const textCoardiantes = [{ text: "A", fixedLeft: 250, fixedTop: 300, dragLeft: 400, dragTop: 500, dragcolor: "yellow", fixedColor: "white" },
-  { text: "H", fixedLeft: 100, fixedTop: 300, dragLeft: 250, dragTop: 500, dragcolor: "red", fixedColor: "white" },
-  { text: "T", fixedLeft: 400, fixedTop: 300, dragLeft: 100, dragTop: 500, dragcolor: "grey", fixedColor: "white" }]
+  const textCoardiantes = [{ text: "A", fixedLeft: 250, fixedTop: 300, dragLeft: 380, dragTop: 450, dragcolor: "yellow", fixedColor: "white" },
+  { text: "H", fixedLeft: 110, fixedTop: 300, dragLeft: 250, dragTop: 450, dragcolor: "red", fixedColor: "white" },
+  { text: "T", fixedLeft: 380, fixedTop: 300, dragLeft: 110, dragTop: 450, dragcolor: "grey", fixedColor: "white" }]
 
   const initCanvas = () => {
 
