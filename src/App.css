@@ -2,23 +2,32 @@
   text-align: center;
 }
 
+.main{
+  border: 10px black;
+  /* margin: 0.5rem; */
+  height: 390px;
+  width: 700px;
+  background-image: url('./img/back.jpg');
+  background-repeat: no-repeat;
+  background-size:cover
+}
+
 .Box{
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.canvas{
-  border-radius: 1rem;
+.can{
   display: flex;
+  justify-content: space-around;
   align-items: center;
-  /* justify-content: space-around; */
+  margin-left: 1rem;
+  margin-right: 1rem;
+
 }
-/* 
-.empty{
-  width:100;
-  height: 100;
-  background-color: #F5F5F5;
-  top: 400;
-  left: 100;
-} */
+
+.lower-canvas{
+  border-radius: 0.5rem;
+  border: 3px solid;
+}
