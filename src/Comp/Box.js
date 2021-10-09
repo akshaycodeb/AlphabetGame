@@ -7,16 +7,18 @@ const Box = () => {
     initCanvas();
   });
 
-  const textCoardiantes = [{ text: "A", fixedLeft: 230, fixedTop: 50, dragLeft: 350, dragTop: 200, dragcolor: "yellow", fixedColor: "white" },
-  { text: "H", fixedLeft: 100, fixedTop: 50, dragLeft: 230, dragTop: 200, dragcolor: "red", fixedColor: "white" },
-  { text: "T", fixedLeft: 350, fixedTop: 50, dragLeft: 100, dragTop: 200, dragcolor: "grey", fixedColor: "white" }]
+  const textCoardiantes = [{ text: "A", fixedLeft: 140, fixedTop: 30, dragLeft: 250, dragTop: 130, dragcolor: "yellow", fixedColor: "" },
+  { text: "H", fixedLeft: 30, fixedTop: 30, dragLeft: 140, dragTop: 130, dragcolor: "red", fixedColor: "" },
+  { text: "T", fixedLeft: 250, fixedTop: 30, dragLeft: 30, dragTop: 130, dragcolor: "grey", fixedColor: "" }]
 
   const initCanvas = () => {
 
     const Anime = new fabric.Canvas('canvas', {
-      height: 350,
-      width: 500,
-      backgroundColor: 'pink',
+      height: 200,
+      width: 300,
+      backgroundColor: 'rgba(147, 197, 253',
+      selection:false
+      
     })
 
     const dragableObjects = []
@@ -25,11 +27,11 @@ const Box = () => {
     for (let index = 0; index < textCoardiantes.length; index++) {
       const element = textCoardiantes[index];
       let fabricTextFixed = new fabric.Text(element.text, {
-        fontSize: 80, textBackgroundColor: element.fixedColor, left: element.fixedLeft, top: element.fixedTop, lockMovementX: true,
-        lockMovementY: true, selectable: false
+        fontSize: 50, textBackgroundColor: element.fixedColor, left: element.fixedLeft, top: element.fixedTop, lockMovementX: true, 
+        lockMovementY: true, selectable: false 
       });
       let fabricTextDragable = new fabric.Text(element.text, {
-        fontSize: 80, textBackgroundColor: element.dragcolor, left: element.dragLeft, top: element.dragTop, hasControls: false,
+        fontSize: 50, textBackgroundColor: element.dragcolor, left: element.dragLeft, top: element.dragTop, hasControls: false,
       });
       Anime.add(fabricTextFixed)
       fixedObjects.push(fabricTextFixed)
@@ -57,7 +59,7 @@ const Box = () => {
 
       // console.log("leftPerc ---", leftPerc);
       // console.log("topPerc ---", topPerc);
-      if (Math.abs(leftPerc) <= 10 && Math.abs(topPerc) <= 10) {
+      if (Math.abs(leftPerc) <= 20 && Math.abs(topPerc) <= 20) {
         return true
       } else {
         return false
@@ -119,11 +121,12 @@ const Box = () => {
   return (
     <div className="main">
       <div className="img">
-      {/* <img src={require('../img/hat.png')}/> */}
-      <img src='./img/hat.png' width="150" height="150"/>
+      <img src='./img/hat.png' width="130" height="130"/>
       </div>
-      <div className="canvas">
+      <div className="can">
+      <img src="./img/bird.png" width='100' height='200' />
        <canvas  id="canvas" />
+      <img src="./img/bird.png" width='100' height='200' />
       </div>
     </div>
   );
