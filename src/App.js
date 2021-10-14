@@ -5,7 +5,7 @@ import Box from './Comp/Box';
 function App() {
   return (
     <div className="App">
-      <div className="Box">
+      <div>
       <Box />
       {/* <Start /> */}
       </div>

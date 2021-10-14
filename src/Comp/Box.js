@@ -1,6 +1,5 @@
-import { fabric } from 'fabric';
+import { fabric, Rect } from 'fabric';
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import '../App.css';
 
 const Box = () => {
@@ -12,24 +11,24 @@ const Box = () => {
   const Data = {
     backgroundImageurl: "",
     imageUrl: "",
-    gameData: [{ text: "A", color: "yellow" },
-    { text: "B", color: "yellow" },
-    { text: "C", color: "yellow" },
+    gameData: [{ text: "H", color: "yellow" },
+    { text: "A", color: "yellow" },
+    { text: "T", color: "yellow" },
     { text: "D", color: "yellow" },
     { text: "1", color: "yellow" },
     { text: "2", color: "yellow" },
     { text: "3", color: "yellow" },
-    // { text: "4", color: "yellow" },
-    // { text: "5", color: "yellow" },
-    // { text: "E", color: "yellow" },
-    // { text: "F", color: "yellow" },
-    // { text: "G", color: "yellow" },
-    // { text: "H", color: "yellow" },
-    // { text: "I", color: "yellow" },
-    // { text: "J", color: "yellow" },
-    // { text: "K", color: "yellow" },
-    // { text: "L", color: "yellow" },
-    // { text: "M", color: "yellow" }
+    { text: "4", color: "yellow" },
+    { text: "5", color: "yellow" },
+    { text: "E", color: "yellow" },
+    { text: "F", color: "yellow" },
+    { text: "G", color: "yellow" },
+    { text: "H", color: "yellow" },
+    { text: "I", color: "yellow" },
+    { text: "J", color: "yellow" },
+    { text: "K", color: "yellow" },
+    { text: "L", color: "yellow" },
+    { text: "M", color: "yellow" }
     ]
   }
 
@@ -39,27 +38,65 @@ const Box = () => {
 
   const initCanvas = () => {
 
-    const { canvasWidth, canvasHeight, cords: textCoardiantes } = calculateCoords(Data)
+    const { canvasWidth, canvasHeight, cords: textCoardiantes, rectLeft, rectTop } = calculateCoords(Data)
+
+    // const totalWidth = (window.screen.height - 25)/  2
 
     const Anime = new fabric.Canvas('canvas', {
-      height: canvasHeight,
-      width: canvasWidth,
-      // width:canvasWidth(50,25),
-      // width:(window.screen.width/canvasWidth(50,25)) * 100, 
+      // height: canvasHeight,
+      // width: canvasWidth,
+      height: window.screen.height,
+      width: window.screen.width,
       backgroundColor: 'rgba(147, 197, 253)',
       selection: false
     })
+    // Anime.setBackgroundImage("./img/back.jpg",Anime.renderAll.bind(Anime),{
+    //   // scaleX: Anime.width / img.width,
+    //   // scaleY: Anime.height / img.height
+    // })
+
+    fabric.Image.fromURL('./img/back.jpg', function (img) {
+      Anime.setBackgroundImage(img, Anime.renderAll.bind(Anime), {
+        scaleX: Anime.width / img.width,
+        scaleY: Anime.height / img.height
+      });
+    });
+    const imgElement = document.getElementById('my-image');
+    const imgInstance = new fabric.Image(imgElement, {
+      left: 100,
+      top: 100,
+      // angle: 30,
+      // opacity: 0.85
+    });
+
+    Anime.add(imgInstance)
+
+
+    const data = new fabric.Rect({
+
+      height: canvasHeight,
+      width: canvasWidth,
+      left: rectLeft,
+      top: rectTop,
+      fill: 'rgba(147, 197, 253)',
+      selectable: false,
+      hasControls: false
+    })
+    Anime.add(data)
+    Anime.renderAll()
+
     const dragableObjects = []
     const fixedObjects = []
 
     for (let index = 0; index < textCoardiantes.length; index++) {
       const element = textCoardiantes[index];
-      let fabricTextFixed = new fabric.Text(element.text, {
+      var fabricTextFixed = new fabric.Text(element.text, {
+        textAlign: 'center',
         fontSize: 50, textBackgroundColor: element.fixedColor, left: element.fixedLeft, top: element.fixedTop, lockMovementX: true,
-        lockMovementY: true, selectable: false
+        lockMovementY: true, selectable: false, hasBorders: false
       });
-      let fabricTextDragable = new fabric.Text(element.text, {
-        fontSize: 50, textBackgroundColor: element.dragcolor, left: element.dragLeft, top: element.dragTop, hasControls: false,
+      var fabricTextDragable = new fabric.Text(element.text, {
+        fontSize: 50, textBackgroundColor: element.dragcolor, left: element.dragLeft, top: element.dragTop, hasControls: false, hasBorders: false
       });
       Anime.add(fabricTextFixed)
       fixedObjects.push(fabricTextFixed)
@@ -148,14 +185,13 @@ const Box = () => {
 
   return (
     <div className="main">
-      {/* <p>{window.screen.width} - {window.screen.height}</p> */}
-      <img src='./img/hat.png' width="100" height="100" />
       <div className="can">
-        <canvas id="canvas" />
+        <canvas id="canvas" >
+        </canvas>
       </div>
-      {/* <div className="btnnext">
-        
-      </div> */}
+      <div className="btnnext">
+        <button className="btn">Next</button>
+      </div>
     </div>
   );
 }
@@ -164,6 +200,8 @@ export default Box
 
 const calculateCoords = (data) => {
 
+
+
   const gameData = data.gameData
   const numberOfChara = gameData.length
 
@@ -171,41 +209,39 @@ const calculateCoords = (data) => {
   const letterSize = 50
 
   const totalGap = minGap * (numberOfChara + 1)
-
   const canvasWidth = (letterSize * numberOfChara) + totalGap
 
 
   const canvasHeight = (minGap * 3) + (letterSize * 2)
 
+  const rectLeft = (window.screen.width - canvasWidth) / 2
+  const rectTop = (window.screen.height - canvasHeight) / 2
+
+
   let cords = []
 
   const allXcords = []
+
   for (let index = 0; index < gameData.length; index++) {
     const element = gameData[index];
-    const charX = (minGap * (index + 1)) + (letterSize * index)
+    const charX = rectLeft + (minGap * (index + 1)) + (letterSize * index)
     allXcords.push(charX)
+
     cords.push({
       ...element,
       fixedLeft: charX,
-      fixedTop: 25
-
+      fixedTop: rectTop + 25
     })
-
   }
-
+  console.log(`allXcords ------`, allXcords)
   cords = cords.map(e => {
-
     const rndInt = Math.floor(Math.random() * (allXcords.length))
     const dragCharX = allXcords[rndInt]
     allXcords.splice(rndInt, 1)
-
-    return { ...e, dragLeft: dragCharX, dragTop: 100 }
+    return { ...e, dragLeft: dragCharX, dragTop: rectTop + 100 }
   }
   )
-
   console.log(`cords`, cords)
-
-
-  return { canvasWidth, canvasHeight, cords }
+  return { canvasWidth, canvasHeight, cords, rectLeft, rectTop }
 
 }
