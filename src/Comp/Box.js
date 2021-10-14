@@ -13,46 +13,46 @@ const Box = () => {
   });
 
   const Data = {
-  backgroundImageurl:"" ,
-  imageUrl: "" ,
-  gameData: [{text:"A", color:"yellow"}] 
+    backgroundImageurl: "",
+    imageUrl: "",
+    gameData: [{ text: "A", color: "yellow" }]
   }
 
-  const textCoardiantes = [{ text: "A", fixedLeft: 100, fixedTop: 30, dragLeft: 175, dragTop: 110, dragcolor: "yellow", fixedColor: "" },                                                                       
+  const textCoardiantes = [{ text: "A", fixedLeft: 100, fixedTop: 30, dragLeft: 175, dragTop: 110, dragcolor: "yellow", fixedColor: "" },
   { text: "H", fixedLeft: 25, fixedTop: 30, dragLeft: 100, dragTop: 110, dragcolor: "red", fixedColor: "" },
   { text: "T", fixedLeft: 175, fixedTop: 30, dragLeft: 25, dragTop: 110, dragcolor: "grey", fixedColor: "" }]
 
   const initCanvas = () => {
 
-    for (let index = 0; index < textCoardiantes.length; index++) {                                                                                                                                                                                                
+    for (let index = 0; index < textCoardiantes.length; index++) {
       const element = textCoardiantes[index];
-      
-      var canvasWidth=(dataText, spacebetweenText) =>{     
+
+      var canvasWidth = (dataText, spacebetweenText) => {
 
         const total = dataText * 5 + spacebetweenText * 6
 
         console.log('left', element.fixedLeft);
         console.log('total', total);
-        
-        if(total == 400){
+
+        if (total == 400) {
           return true
         }
-        else{
+        else {
           return false
         }
       }
-      console.log("canvasWidth==>" , canvasWidth(50,element.fixedLeft));
+      console.log("canvasWidth==>", canvasWidth(50, element.fixedLeft));
     }
-     
+
     // for (let index = 0; index < textCoardiantes.length; index++) {                                                                                         
     //   const element = textCoardiantes[index];
-      
+
     //   var canvasWidth=(t1,t2,t3,t4,t5) =>{     
-        
+
     //     const total = t1+t2+t3+t4+t5
     //     console.log('left', element.fixedLeft);
     //     console.log('total', total);
-        
+
     //     if(total <= 400){
     //       return true
     //     }
@@ -64,21 +64,21 @@ const Box = () => {
     // }
 
     const Anime = new fabric.Canvas('canvas', {
-      height:200,
-      width:250,   
+      height: 200,
+      width: 250,
       // width:canvasWidth(50,25),
       // width:(window.screen.width/canvasWidth(50,25)) * 100, 
       backgroundColor: 'rgba(147, 197, 253)',
-      selection:false
-    })                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+      selection: false
+    })
     const dragableObjects = []
     const fixedObjects = []
 
     for (let index = 0; index < textCoardiantes.length; index++) {
       const element = textCoardiantes[index];
       let fabricTextFixed = new fabric.Text(element.text, {
-        fontSize: 50, textBackgroundColor: element.fixedColor, left: element.fixedLeft, top: element.fixedTop, lockMovementX: true, 
-        lockMovementY: true, selectable: false 
+        fontSize: 50, textBackgroundColor: element.fixedColor, left: element.fixedLeft, top: element.fixedTop, lockMovementX: true,
+        lockMovementY: true, selectable: false
       });
       let fabricTextDragable = new fabric.Text(element.text, {
         fontSize: 50, textBackgroundColor: element.dragcolor, left: element.dragLeft, top: element.dragTop, hasControls: false,
@@ -167,13 +167,13 @@ const Box = () => {
       )
     }
   }
-   
+
   return (
     <div className="main">
       {/* <p>{window.screen.width} - {window.screen.height}</p> */}
-      <img src='./img/hat.png' width="100" height="100"/>
+      <img src='./img/hat.png' width="100" height="100" />
       <div className="can">
-       <canvas  id="canvas" />
+        <canvas id="canvas" />
       </div>
       {/* <div className="btnnext">
         
