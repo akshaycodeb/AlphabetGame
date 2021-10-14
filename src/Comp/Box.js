@@ -14,21 +14,21 @@ const Box = () => {
     gameData: [{ text: "H", color: "yellow" },
     { text: "A", color: "yellow" },
     { text: "T", color: "yellow" },
-    { text: "D", color: "yellow" },
-    { text: "1", color: "yellow" },
-    { text: "2", color: "yellow" },
-    { text: "3", color: "yellow" },
-    { text: "4", color: "yellow" },
-    { text: "5", color: "yellow" },
-    { text: "E", color: "yellow" },
-    { text: "F", color: "yellow" },
-    { text: "G", color: "yellow" },
-    { text: "H", color: "yellow" },
-    { text: "I", color: "yellow" },
-    { text: "J", color: "yellow" },
-    { text: "K", color: "yellow" },
-    { text: "L", color: "yellow" },
-    { text: "M", color: "yellow" }
+    // { text: "D", color: "yellow" },
+    // { text: "1", color: "yellow" },
+    // { text: "2", color: "yellow" },
+    // { text: "3", color: "yellow" },
+    // { text: "4", color: "yellow" },
+    // { text: "5", color: "yellow" },
+    // { text: "E", color: "yellow" },
+    // { text: "F", color: "yellow" },
+    // { text: "G", color: "yellow" },
+    // { text: "H", color: "yellow" },
+    // { text: "I", color: "yellow" },
+    // { text: "J", color: "yellow" },
+    // { text: "K", color: "yellow" },
+    // { text: "L", color: "yellow" },
+    // { text: "M", color: "yellow" }
     ]
   }
 
@@ -43,17 +43,11 @@ const Box = () => {
     // const totalWidth = (window.screen.height - 25)/  2
 
     const Anime = new fabric.Canvas('canvas', {
-      // height: canvasHeight,
-      // width: canvasWidth,
       height: window.screen.height,
       width: window.screen.width,
       backgroundColor: 'rgba(147, 197, 253)',
       selection: false
     })
-    // Anime.setBackgroundImage("./img/back.jpg",Anime.renderAll.bind(Anime),{
-    //   // scaleX: Anime.width / img.width,
-    //   // scaleY: Anime.height / img.height
-    // })
 
     fabric.Image.fromURL('./img/back.jpg', function (img) {
       Anime.setBackgroundImage(img, Anime.renderAll.bind(Anime), {
@@ -61,19 +55,25 @@ const Box = () => {
         scaleY: Anime.height / img.height
       });
     });
+    
     const imgElement = document.getElementById('my-image');
     const imgInstance = new fabric.Image(imgElement, {
-      left: 100,
-      top: 100,
-      // angle: 30,
-      // opacity: 0.85
+      left: rectLeft + 70, 
+      top: 10,
+      height:100,
+      width:100,
+      selectable: false,
+      hasControls: false
     });
-
     Anime.add(imgInstance)
-
+   
+  //  fabric.Image.fromURL('./img/hat.jpg', function(myImg) {
+  //  const img1 = myImg.set({ left: rectLeft + 70, top: 10 ,width:100,height:100,
+  //     });
+  //  Anime.add(img1); 
+  //  });
 
     const data = new fabric.Rect({
-
       height: canvasHeight,
       width: canvasWidth,
       left: rectLeft,
@@ -82,6 +82,7 @@ const Box = () => {
       selectable: false,
       hasControls: false
     })
+
     Anime.add(data)
     Anime.renderAll()
 
@@ -92,11 +93,11 @@ const Box = () => {
       const element = textCoardiantes[index];
       var fabricTextFixed = new fabric.Text(element.text, {
         textAlign: 'center',
-        fontSize: 50, textBackgroundColor: element.fixedColor, left: element.fixedLeft, top: element.fixedTop, lockMovementX: true,
+        fontSize: 50, textBackgroundColor: "white", left: element.fixedLeft, top: element.fixedTop, lockMovementX: true,
         lockMovementY: true, selectable: false, hasBorders: false
       });
       var fabricTextDragable = new fabric.Text(element.text, {
-        fontSize: 50, textBackgroundColor: element.dragcolor, left: element.dragLeft, top: element.dragTop, hasControls: false, hasBorders: false
+        fontSize: 50, textBackgroundColor: " red", left: element.dragLeft, top: element.dragTop, hasControls: false, hasBorders: false
       });
       Anime.add(fabricTextFixed)
       fixedObjects.push(fabricTextFixed)
@@ -187,6 +188,7 @@ const Box = () => {
     <div className="main">
       <div className="can">
         <canvas id="canvas" >
+          <img src="./img/hat.png" id="my-image"/>
         </canvas>
       </div>
       <div className="btnnext">
@@ -197,26 +199,20 @@ const Box = () => {
 }
 export default Box
 
-
 const calculateCoords = (data) => {
-
-
 
   const gameData = data.gameData
   const numberOfChara = gameData.length
 
   const minGap = 25
   const letterSize = 50
-
   const totalGap = minGap * (numberOfChara + 1)
+
   const canvasWidth = (letterSize * numberOfChara) + totalGap
-
-
   const canvasHeight = (minGap * 3) + (letterSize * 2)
 
   const rectLeft = (window.screen.width - canvasWidth) / 2
   const rectTop = (window.screen.height - canvasHeight) / 2
-
 
   let cords = []
 
