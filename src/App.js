@@ -7,9 +7,9 @@ function App() {
     <div className="App">
       <div className="Box">
       <Box />
+      {/* <Start /> */}
       </div>
     </div>
   );
 }
-
 export default App;

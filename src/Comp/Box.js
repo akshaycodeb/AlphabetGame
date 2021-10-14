@@ -1,26 +1,76 @@
-import React, { useEffect } from 'react';
 import { fabric } from 'fabric';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import '../App.css';
 
 const Box = () => {
+  const history = useHistory()
 
   useEffect(() => {
+    // console.log("screen.width ----------------- ",window.screen.width);
+    // console.log("screen.height ----------------- ",window.screen.height);
     initCanvas();
   });
 
-  const textCoardiantes = [{ text: "A", fixedLeft: 140, fixedTop: 30, dragLeft: 250, dragTop: 130, dragcolor: "yellow", fixedColor: "" },
-  { text: "H", fixedLeft: 30, fixedTop: 30, dragLeft: 140, dragTop: 130, dragcolor: "red", fixedColor: "" },
-  { text: "T", fixedLeft: 250, fixedTop: 30, dragLeft: 30, dragTop: 130, dragcolor: "grey", fixedColor: "" }]
+  const Data = {
+  backgroundImageurl:"" ,
+  imageUrl: "" ,
+  gameData: [{text:"A", color:"yellow"}] 
+  }
+
+  const textCoardiantes = [{ text: "A", fixedLeft: 100, fixedTop: 30, dragLeft: 175, dragTop: 110, dragcolor: "yellow", fixedColor: "" },                                                                       
+  { text: "H", fixedLeft: 25, fixedTop: 30, dragLeft: 100, dragTop: 110, dragcolor: "red", fixedColor: "" },
+  { text: "T", fixedLeft: 175, fixedTop: 30, dragLeft: 25, dragTop: 110, dragcolor: "grey", fixedColor: "" }]
 
   const initCanvas = () => {
 
-    const Anime = new fabric.Canvas('canvas', {
-      height: 200,
-      width: 300,
-      backgroundColor: 'rgba(147, 197, 253',
-      selection:false
+    for (let index = 0; index < textCoardiantes.length; index++) {                                                                                                                                                                                                
+      const element = textCoardiantes[index];
       
-    })
+      var canvasWidth=(dataText, spacebetweenText) =>{     
 
+        const total = dataText * 5 + spacebetweenText * 6
+
+        console.log('left', element.fixedLeft);
+        console.log('total', total);
+        
+        if(total == 400){
+          return true
+        }
+        else{
+          return false
+        }
+      }
+      console.log("canvasWidth==>" , canvasWidth(50,element.fixedLeft));
+    }
+     
+    // for (let index = 0; index < textCoardiantes.length; index++) {                                                                                         
+    //   const element = textCoardiantes[index];
+      
+    //   var canvasWidth=(t1,t2,t3,t4,t5) =>{     
+        
+    //     const total = t1+t2+t3+t4+t5
+    //     console.log('left', element.fixedLeft);
+    //     console.log('total', total);
+        
+    //     if(total <= 400){
+    //       return true
+    //     }
+    //     else{
+    //       return false
+    //     }
+    //   }
+    //   console.log("canvasWidth" , canvasWidth(25,100,175,250,325));
+    // }
+
+    const Anime = new fabric.Canvas('canvas', {
+      height:200,
+      width:250,   
+      // width:canvasWidth(50,25),
+      // width:(window.screen.width/canvasWidth(50,25)) * 100, 
+      backgroundColor: 'rgba(147, 197, 253)',
+      selection:false
+    })                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
     const dragableObjects = []
     const fixedObjects = []
 
@@ -117,17 +167,17 @@ const Box = () => {
       )
     }
   }
-
+   
   return (
     <div className="main">
-      <div className="img">
-      <img src='./img/hat.png' width="130" height="130"/>
-      </div>
+      {/* <p>{window.screen.width} - {window.screen.height}</p> */}
+      <img src='./img/hat.png' width="100" height="100"/>
       <div className="can">
-      <img src="./img/bird.png" width='100' height='200' />
        <canvas  id="canvas" />
-      <img src="./img/bird.png" width='100' height='200' />
       </div>
+      {/* <div className="btnnext">
+        
+      </div> */}
     </div>
   );
 }
