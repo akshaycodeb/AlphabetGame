@@ -4,68 +4,46 @@ import { useHistory } from 'react-router-dom';
 import '../App.css';
 
 const Box = () => {
-  const history = useHistory()
 
   useEffect(() => {
-    // console.log("screen.width ----------------- ",window.screen.width);
-    // console.log("screen.height ----------------- ",window.screen.height);
     initCanvas();
   });
 
   const Data = {
     backgroundImageurl: "",
     imageUrl: "",
-    gameData: [{ text: "A", color: "yellow" }]
+    gameData: [{ text: "A", color: "yellow" },
+    { text: "B", color: "yellow" },
+    { text: "C", color: "yellow" },
+    { text: "D", color: "yellow" },
+    { text: "1", color: "yellow" },
+    { text: "2", color: "yellow" },
+    { text: "3", color: "yellow" },
+    // { text: "4", color: "yellow" },
+    // { text: "5", color: "yellow" },
+    // { text: "E", color: "yellow" },
+    // { text: "F", color: "yellow" },
+    // { text: "G", color: "yellow" },
+    // { text: "H", color: "yellow" },
+    // { text: "I", color: "yellow" },
+    // { text: "J", color: "yellow" },
+    // { text: "K", color: "yellow" },
+    // { text: "L", color: "yellow" },
+    // { text: "M", color: "yellow" }
+    ]
   }
 
-  const textCoardiantes = [{ text: "A", fixedLeft: 100, fixedTop: 30, dragLeft: 175, dragTop: 110, dragcolor: "yellow", fixedColor: "" },
-  { text: "H", fixedLeft: 25, fixedTop: 30, dragLeft: 100, dragTop: 110, dragcolor: "red", fixedColor: "" },
-  { text: "T", fixedLeft: 175, fixedTop: 30, dragLeft: 25, dragTop: 110, dragcolor: "grey", fixedColor: "" }]
+  // const textCoardiantes = [{ text: "A", fixedLeft: 100, fixedTop: 30, dragLeft: 175, dragTop: 110, dragcolor: "yellow", fixedColor: "" },
+  // { text: "H", fixedLeft: 25, fixedTop: 30, dragLeft: 100, dragTop: 110, dragcolor: "red", fixedColor: "" },
+  // { text: "T", fixedLeft: 175, fixedTop: 30, dragLeft: 25, dragTop: 110, dragcolor: "grey", fixedColor: "" }]
 
   const initCanvas = () => {
 
-    for (let index = 0; index < textCoardiantes.length; index++) {
-      const element = textCoardiantes[index];
-
-      var canvasWidth = (dataText, spacebetweenText) => {
-
-        const total = dataText * 5 + spacebetweenText * 6
-
-        console.log('left', element.fixedLeft);
-        console.log('total', total);
-
-        if (total == 400) {
-          return true
-        }
-        else {
-          return false
-        }
-      }
-      console.log("canvasWidth==>", canvasWidth(50, element.fixedLeft));
-    }
-
-    // for (let index = 0; index < textCoardiantes.length; index++) {                                                                                         
-    //   const element = textCoardiantes[index];
-
-    //   var canvasWidth=(t1,t2,t3,t4,t5) =>{     
-
-    //     const total = t1+t2+t3+t4+t5
-    //     console.log('left', element.fixedLeft);
-    //     console.log('total', total);
-
-    //     if(total <= 400){
-    //       return true
-    //     }
-    //     else{
-    //       return false
-    //     }
-    //   }
-    //   console.log("canvasWidth" , canvasWidth(25,100,175,250,325));
-    // }
+    const { canvasWidth, canvasHeight, cords: textCoardiantes } = calculateCoords(Data)
 
     const Anime = new fabric.Canvas('canvas', {
-      height: 200,
-      width: 250,
+      height: canvasHeight,
+      width: canvasWidth,
       // width:canvasWidth(50,25),
       // width:(window.screen.width/canvasWidth(50,25)) * 100, 
       backgroundColor: 'rgba(147, 197, 253)',
@@ -109,7 +87,7 @@ const Box = () => {
 
       // console.log("leftPerc ---", leftPerc);
       // console.log("topPerc ---", topPerc);
-      if (Math.abs(leftPerc) <= 20 && Math.abs(topPerc) <= 20) {
+      if (Math.abs(leftPerc) <= 10 && Math.abs(topPerc) <= 10) {
         return true
       } else {
         return false
@@ -182,3 +160,52 @@ const Box = () => {
   );
 }
 export default Box
+
+
+const calculateCoords = (data) => {
+
+  const gameData = data.gameData
+  const numberOfChara = gameData.length
+
+  const minGap = 25
+  const letterSize = 50
+
+  const totalGap = minGap * (numberOfChara + 1)
+
+  const canvasWidth = (letterSize * numberOfChara) + totalGap
+
+
+  const canvasHeight = (minGap * 3) + (letterSize * 2)
+
+  let cords = []
+
+  const allXcords = []
+  for (let index = 0; index < gameData.length; index++) {
+    const element = gameData[index];
+    const charX = (minGap * (index + 1)) + (letterSize * index)
+    allXcords.push(charX)
+    cords.push({
+      ...element,
+      fixedLeft: charX,
+      fixedTop: 25
+
+    })
+
+  }
+
+  cords = cords.map(e => {
+
+    const rndInt = Math.floor(Math.random() * (allXcords.length))
+    const dragCharX = allXcords[rndInt]
+    allXcords.splice(rndInt, 1)
+
+    return { ...e, dragLeft: dragCharX, dragTop: 100 }
+  }
+  )
+
+  console.log(`cords`, cords)
+
+
+  return { canvasWidth, canvasHeight, cords }
+
+}
