@@ -1,111 +1,101 @@
-import { fabric, Rect } from 'fabric';
-import React, { useEffect } from 'react';
+import { fabric } from 'fabric';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import '../App.css';
+import { FaAngleDoubleRight } from "react-icons/fa";
+
+
+let gameIndex = 0
 
 const Box = () => {
-
-  useEffect(() => {
-    initCanvas();
-  });
+  const [gameIndex, setgameIndex] = useState(0)
+  const [test, setTest] = useState()
 
   const Data = {
     backgroundImageurl: "",
     imageUrl: "",
-    gameData: [{ text: "H", color: "yellow" },
-    { text: "A", color: "yellow" },
-    { text: "T", color: "yellow" },
-    // { text: "D", color: "yellow" },
-    // { text: "1", color: "yellow" },
-    // { text: "2", color: "yellow" },
-    // { text: "3", color: "yellow" },
-    // { text: "4", color: "yellow" },
-    // { text: "5", color: "yellow" },
-    // { text: "E", color: "yellow" },
-    // { text: "F", color: "yellow" },
-    // { text: "G", color: "yellow" },
-    // { text: "H", color: "yellow" },
-    // { text: "I", color: "yellow" },
-    // { text: "J", color: "yellow" },
-    // { text: "K", color: "yellow" },
-    // { text: "L", color: "yellow" },
-    // { text: "M", color: "yellow" }
+    gameData: [
+      [{ text: "H" }, { text: "A" }, { text: "T" }],  
+      [{ text: "B" }, { text: "A" }, { text: "T" }],   
+      [{ text: "T" }, { text: "A" }, { text: "P" }],   
+      [{ text: "C" }, { text: "A" }, { text: "T" }],   
+      [{ text: "C" }, { text: "U" }, { text: "P" }],    
+      [{ text: "M" }, { text: "A" }, { text: "T" }],
+      [{ text: "R" }, { text: "A" }, { text: "T" }],
+      [{ text: "B" }, { text: "A" }, { text: "G" }],
+      [{ text: "F" }, { text: "A" }, { text: "N" }],
     ]
   }
 
-  // const textCoardiantes = [{ text: "A", fixedLeft: 100, fixedTop: 30, dragLeft: 175, dragTop: 110, dragcolor: "yellow", fixedColor: "" },
-  // { text: "H", fixedLeft: 25, fixedTop: 30, dragLeft: 100, dragTop: 110, dragcolor: "red", fixedColor: "" },
-  // { text: "T", fixedLeft: 175, fixedTop: 30, dragLeft: 25, dragTop: 110, dragcolor: "grey", fixedColor: "" }]
-
-  const initCanvas = () => {
-
-    const { canvasWidth, canvasHeight, cords: textCoardiantes, rectLeft, rectTop } = calculateCoords(Data)
-
-    // const totalWidth = (window.screen.height - 25)/  2
-
-    const Anime = new fabric.Canvas('canvas', {
-      height: window.screen.height,
-      width: window.screen.width,
-      backgroundColor: 'rgba(147, 197, 253)',
-      selection: false
-    })
-
-    fabric.Image.fromURL('./img/back.jpg', function (img) {
-      Anime.setBackgroundImage(img, Anime.renderAll.bind(Anime), {
-        scaleX: Anime.width / img.width,
-        scaleY: Anime.height / img.height
-      });
-    });
-    
-    const imgElement = document.getElementById('my-image');
-    const imgInstance = new fabric.Image(imgElement, {
-      left: rectLeft + 70, 
-      top: 10,
-      height:100,
-      width:100,
-      selectable: false,
-      hasControls: false
-    });
-    Anime.add(imgInstance)
+  const initCanvas = (Anime) => {
    
-  //  fabric.Image.fromURL('./img/hat.jpg', function(myImg) {
-  //  const img1 = myImg.set({ left: rectLeft + 70, top: 10 ,width:100,height:100,
-  //     });
-  //  Anime.add(img1); 
-  //  });
+    const dragableObjects = []
+    const fixedObjects = []
+    const { canvasWidth, canvasHeight, cords: textCoardiantes, rectLeft, rectTop, imgLeft } = calculateCoords(Data, gameIndex)
+   
+    fabric.Image.fromURL('./img/hat.png', function (myImg) {
+      const img1 = myImg.set({
+        left: imgLeft, top: rectTop - 90
+      });
+      img1.scaleToHeight(100);
+      img1.scaleToWidth(100)
+      img1.hasControls = false
+      img1.lockMovementX = false
+      img1.lockMovementY = false
+      img1.selectable = false
+      Anime.add(img1);
+    });
 
     const data = new fabric.Rect({
       height: canvasHeight,
       width: canvasWidth,
       left: rectLeft,
       top: rectTop,
-      fill: 'rgba(147, 197, 253)',
+      fill: 'rgba(191, 219, 254)',
+      opacity:0.8,
       selectable: false,
-      hasControls: false
+      hasControls: false,
+      objectCaching:false
     })
+    Anime.add(data) 
 
-    Anime.add(data)
-    Anime.renderAll()
-
-    const dragableObjects = []
-    const fixedObjects = []
+    // Anime.add(
+    //   new fabric.Text(
+    //     gameIndex.toString(), {
+    //     left: 0, top: 0,
+    //     objectCaching:false
+    //   }
+    //   )
+    // )
 
     for (let index = 0; index < textCoardiantes.length; index++) {
       const element = textCoardiantes[index];
       var fabricTextFixed = new fabric.Text(element.text, {
-        textAlign: 'center',
         fontSize: 50, textBackgroundColor: "white", left: element.fixedLeft, top: element.fixedTop, lockMovementX: true,
-        lockMovementY: true, selectable: false, hasBorders: false
+        lockMovementY: true, selectable: false, hasBorders: false , objectCaching:false
       });
       var fabricTextDragable = new fabric.Text(element.text, {
-        fontSize: 50, textBackgroundColor: " red", left: element.dragLeft, top: element.dragTop, hasControls: false, hasBorders: false
+        fontSize: 50, textBackgroundColor: "", left: element.dragLeft, top: element.dragTop, hasControls: false, hasBorders: false, objectCaching:false
       });
-      Anime.add(fabricTextFixed)
-      fixedObjects.push(fabricTextFixed)
+        fixedObjects.push(fabricTextFixed)
+        dragableObjects.push(fabricTextDragable)
+        Anime.renderAll()
 
-      Anime.add(fabricTextDragable)
-      dragableObjects.push(fabricTextDragable)
-      Anime.renderAll()
+        const plotObjects=(fabricText1, fabricText2 )=>{
+          Anime.add(fabricText1)
+          Anime.add(fabricText2)
+          Anime.renderAll()
+        }
+        plotObjects(fabricTextFixed,fabricTextDragable)
     }
+
+    // const removeObjectsfromCanvas=(removeObject1,removeObject2,fabricRect)=>{
+    //   Anime.remove(fabricRect)
+    //   Anime.remove(removeObject1)
+    //   Anime.remove(removeObject2)
+    //   // Anime.remove(fabricRect)
+    //   Anime.renderAll()
+    // }
+    // removeObjectsfromCanvas(fabricTextDragable,fabricTextFixed,data)
 
     for (let index = 0; index < dragableObjects.length; index++) {
       const element = dragableObjects[index];
@@ -125,7 +115,7 @@ const Box = () => {
 
       // console.log("leftPerc ---", leftPerc);
       // console.log("topPerc ---", topPerc);
-      if (Math.abs(leftPerc) <= 10 && Math.abs(topPerc) <= 10) {
+      if (Math.abs(leftPerc) <= 8 && Math.abs(topPerc) <= 8) {
         return true
       } else {
         return false
@@ -182,26 +172,62 @@ const Box = () => {
       }
       )
     }
+   }
+  
+  //  const removeObjectsfromCanvas=( Anime,removeObject)=>{
+  //   Anime.remove(removeObject)
+  //   // Anime.remove(fabricRect)
+  //   Anime.renderAll()
+  // }
+
+//   window.deleteObject = function(Anime) {
+//     Anime.getActiveObject().remove();
+// }
+
+  const changeData = () => {
+    if(gameIndex == 8){
+     setgameIndex(0)
+    }else{
+      setgameIndex(gameIndex + 1)
+    }
+    initCanvas(test) 
+
   }
+
+  useLayoutEffect(() => {
+    var Anime = new fabric.Canvas('canvas', {
+      height: window.screen.height,
+      width: window.screen.width,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+      backgroundColor: 'rgba(147, 197, 253)', 
+      selection: false,
+    })
+
+    fabric.Image.fromURL('./img/back.jpg', function (img) {
+      Anime.setBackgroundImage(img, Anime.renderAll.bind(Anime), {
+        scaleX: Anime.width / img.width,
+        scaleY: Anime.height / img.height,
+      });
+    });
+    setTest(Anime)
+    initCanvas(Anime)
+  }, [])
 
   return (
     <div className="main">
       <div className="can">
         <canvas id="canvas" >
-          <img src="./img/hat.png" id="my-image"/>
+        {/* <button className="btn" onClick={changeData}>Next</button> */}
         </canvas>
-      </div>
-      <div className="btnnext">
-        <button className="btn">Next</button>
+        <FaAngleDoubleRight className="btn" onClick={changeData}/>
       </div>
     </div>
   );
 }
 export default Box
 
-const calculateCoords = (data) => {
+const calculateCoords = (data, dataIndex) => {
 
-  const gameData = data.gameData
+  const gameData = data.gameData[dataIndex]
   const numberOfChara = gameData.length
 
   const minGap = 25
@@ -214,6 +240,8 @@ const calculateCoords = (data) => {
   const rectLeft = (window.screen.width - canvasWidth) / 2
   const rectTop = (window.screen.height - canvasHeight) / 2
 
+  const imgLeft = (window.screen.width - (canvasWidth/2 - 10)) / 2
+
   let cords = []
 
   const allXcords = []
@@ -225,11 +253,11 @@ const calculateCoords = (data) => {
 
     cords.push({
       ...element,
-      fixedLeft: charX,
+      fixedLeft: charX ,
       fixedTop: rectTop + 25
     })
   }
-  console.log(`allXcords ------`, allXcords)
+  // console.log(`allXcords ------`, allXcords)
   cords = cords.map(e => {
     const rndInt = Math.floor(Math.random() * (allXcords.length))
     const dragCharX = allXcords[rndInt]
@@ -237,7 +265,6 @@ const calculateCoords = (data) => {
     return { ...e, dragLeft: dragCharX, dragTop: rectTop + 100 }
   }
   )
-  console.log(`cords`, cords)
-  return { canvasWidth, canvasHeight, cords, rectLeft, rectTop }
-
+  // console.log(`cords`, cords)
+  return { canvasWidth, canvasHeight, cords, rectLeft, rectTop, imgLeft }
 }

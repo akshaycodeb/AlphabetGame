@@ -7,7 +7,6 @@ function App() {
     <div className="App">
       <div>
       <Box />
-      {/* <Start /> */}
       </div>
     </div>
   );
